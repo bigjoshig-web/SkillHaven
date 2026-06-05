@@ -169,6 +169,44 @@
     .about-lead { font-size:1.05rem; color:var(--gray); line-height:1.82; margin-bottom:16px; }
     .about-lead strong { color:var(--navy); }
 
+    /* About photo */
+    .about-img {
+      width:100%; border-radius:18px; margin-top:28px;
+      object-fit:cover; height:280px; display:block;
+      border:3px solid var(--yellow);
+      box-shadow:0 10px 36px rgba(27,58,140,.16);
+    }
+
+    /* Global classroom section */
+    #global { position:relative; overflow:hidden; height:420px; }
+    .global-img { width:100%; height:100%; object-fit:cover; object-position:center top; display:block; }
+    .global-overlay {
+      position:absolute; inset:0;
+      background:linear-gradient(135deg,rgba(13,33,88,.86),rgba(27,58,140,.75));
+      display:flex; align-items:center; justify-content:center;
+      flex-direction:column; text-align:center; padding:40px 6%;
+    }
+    .global-overlay h2 { font-size:clamp(1.8rem,3.5vw,2.7rem); font-weight:800; color:#fff; margin-bottom:14px; line-height:1.2; }
+    .global-overlay h2 span { color:var(--yellow); }
+    .global-overlay p { color:rgba(255,255,255,.72); font-size:1rem; max-width:560px; line-height:1.75; }
+
+    /* Blog image wrapper */
+    .blog-thumb-wrap { position:relative; height:196px; overflow:hidden; }
+    .blog-thumb-wrap img { width:100%; height:100%; object-fit:cover; object-position:center; display:block; }
+    .blog-thumb-wrap .blog-tag { position:absolute; bottom:16px; left:16px; }
+
+    /* Skill interest select */
+    .wl-form select {
+      padding:17px 22px; border-radius:14px;
+      border:2px solid rgba(255,255,255,.15);
+      background:rgba(255,255,255,.08) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.5)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 18px center;
+      color:#fff; font-family:'Outfit',sans-serif; font-size:.97rem;
+      outline:none; transition:border-color .2s;
+      -webkit-appearance:none; appearance:none; cursor:pointer;
+    }
+    .wl-form select:focus { border-color:var(--yellow); }
+    .wl-form select option { background:#0D2158; color:#fff; }
+
     .quad { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
     .qcard {
       background:var(--white); border-radius:18px; padding:26px 22px;
@@ -494,6 +532,12 @@
       <p class="about-lead">
         That moment is exactly why <strong>SkillHaven exists</strong> — to bridge the gap between learning and earning, and between ideas and scalable businesses.
       </p>
+      <img
+        src="assets/img/busstop.jpg"
+        alt="Graduate facing the real world — SkillHaven bridges the gap between education and income"
+        class="about-img"
+        onerror="this.style.display='none'"
+      />
     </div>
     <div class="quad">
       <div class="qcard">
@@ -517,6 +561,20 @@
         <p>Practical, monetizable skills with real direction — not just theoretical knowledge.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- GLOBAL CLASSROOM -->
+<section id="global">
+  <img
+    src="assets/img/classroom.jpg"
+    alt="SkillHaven digital classroom — global learners"
+    class="global-img"
+    onerror="this.style.background='linear-gradient(135deg,#0D2158,#1B3A8C)'"
+  />
+  <div class="global-overlay">
+    <h2>The Internet is the Biggest<br><span>Classroom in Human History.</span></h2>
+    <p>One hour a day for a year could change everything. Business. Design. Technology. Marketing. Your future income might depend on what you do with your time online today.</p>
   </div>
 </section>
 
@@ -635,7 +693,10 @@
     </div>
     <div class="blog-grid">
       <div class="blog-card">
-        <div class="blog-thumb bt1"><span class="blog-tag">Career</span></div>
+        <div class="blog-thumb-wrap">
+          <img src="assets/img/comparison.jpg" alt="Two friends — two different paths after graduation" onerror="this.parentElement.style.background='linear-gradient(180deg,rgba(13,33,88,.2) 0%,rgba(13,33,88,.92) 100%)'"/>
+          <span class="blog-tag">Career</span>
+        </div>
         <div class="blog-body">
           <div class="blog-date">Coming Soon</div>
           <div class="blog-title">Two friends graduated the same year. Five years later, their lives look very different.</div>
@@ -675,6 +736,16 @@
     <div class="wl-form">
       <input type="text" id="wlName" placeholder="Your full name" />
       <input type="email" id="wlEmail" placeholder="Your email address" />
+      <select id="wlInterest">
+        <option value="" disabled selected>What skill are you most interested in?</option>
+        <option value="Digital Marketing">📱 Digital Marketing</option>
+        <option value="Freelancing & Remote Work">🌐 Freelancing & Remote Work</option>
+        <option value="Business & Brand Building">🏢 Business & Brand Building</option>
+        <option value="Tech Skills (Design/Coding)">💻 Tech Skills (Design / Coding)</option>
+        <option value="Content Creation">✍️ Content Creation</option>
+        <option value="Finance & Investing">💰 Finance & Investing</option>
+        <option value="All of the above">🔥 All of the above</option>
+      </select>
       <button onclick="submitWL()">🚀 Join the Waitlist — It's Free</button>
       <div class="wl-success" id="wlSuccess">✅ You're on the list! We'll reach out before launch.</div>
     </div>
@@ -755,15 +826,44 @@
     document.getElementById('waitlist').scrollIntoView({ behavior: 'smooth' });
   }
 
-  // Full waitlist submit
-  function submitWL() {
-    const name  = document.getElementById('wlName').value.trim();
-    const email = document.getElementById('wlEmail').value.trim();
-    if (!name)  { alert('Please enter your full name.'); return; }
+  // Full waitlist submit — connected to Make.com webhook
+  async function submitWL() {
+    const name     = document.getElementById('wlName').value.trim();
+    const email    = document.getElementById('wlEmail').value.trim();
+    const interest = document.getElementById('wlInterest').value;
+    const btn      = document.querySelector('.wl-form button');
+
+    if (!name)     { alert('Please enter your full name.'); return; }
     if (!email || !email.includes('@')) { alert('Please enter a valid email address.'); return; }
-    ['wlName','wlEmail'].forEach(id => document.getElementById(id).style.display = 'none');
-    document.querySelector('.wl-form button').style.display = 'none';
-    document.getElementById('wlSuccess').style.display = 'block';
+    if (!interest) { alert('Please select your skill interest.'); return; }
+
+    btn.textContent = '⏳ Joining...';
+    btn.disabled = true;
+
+    try {
+      await fetch('https://hook.eu1.make.com/d5o7wy62javecc5b5ucb3n4qj9rwghr0', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          email,
+          interest,
+          source: 'SkillHaven Waitlist',
+          date: new Date().toLocaleString('en-NG', { timeZone: 'Africa/Lagos' })
+        })
+      });
+      // Success — hide form, show message
+      ['wlName','wlEmail','wlInterest'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+      });
+      btn.style.display = 'none';
+      document.getElementById('wlSuccess').style.display = 'block';
+    } catch (err) {
+      btn.textContent = '🚀 Join the Waitlist — It\'s Free';
+      btn.disabled = false;
+      alert('Something went wrong. Please check your connection and try again.');
+    }
   }
 
   // Scroll-reveal observer
