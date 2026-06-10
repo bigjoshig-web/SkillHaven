@@ -137,17 +137,35 @@
     @keyframes fadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
 
     /* ── STRIP ── */
+    /* ── MARQUEE STRIP ── */
     .strip {
-      background:var(--yellow); padding:13px 6%;
-      display:flex; align-items:center; justify-content:center;
-      gap:36px; flex-wrap:wrap; overflow:hidden;
+      background:var(--yellow); overflow:hidden;
+      position:relative; padding:0;
+      border-top:2px solid rgba(13,33,88,.08);
+      border-bottom:2px solid rgba(13,33,88,.08);
+    }
+    .strip-track {
+      display:flex; align-items:center;
+      width:max-content; gap:0;
+      animation:marquee 28s linear infinite;
+      padding:15px 0;
+    }
+    .strip-track:hover { animation-play-state:paused; }
+    @keyframes marquee {
+      from { transform:translateX(0); }
+      to   { transform:translateX(-50%); }
     }
     .strip-item {
-      display:flex; align-items:center; gap:8px;
-      font-family:'Syne',sans-serif; font-weight:700; font-size:.82rem;
+      display:flex; align-items:center; gap:9px;
+      font-family:'Syne',sans-serif; font-weight:700; font-size:.85rem;
       color:var(--navy); white-space:nowrap;
+      padding:0 36px;
     }
-    .sep { width:5px; height:5px; background:var(--navy); border-radius:50%; opacity:.35; }
+    .strip-item svg { flex-shrink:0; }
+    .sep {
+      width:6px; height:6px; background:var(--navy);
+      border-radius:50%; opacity:.3; flex-shrink:0;
+    }
 
     /* ── SECTION COMMONS ── */
     .section-label {
@@ -511,17 +529,24 @@
   </div>
 </section>
 
-<!-- STRIP -->
+<!-- STRIP MARQUEE -->
 <div class="strip">
-  <div class="strip-item">🚀 Launching Soon</div>
-  <div class="sep"></div>
-  <div class="strip-item">📚 10+ Courses Coming</div>
-  <div class="sep"></div>
-  <div class="strip-item">🌍 Built for Global Learners</div>
-  <div class="sep"></div>
-  <div class="strip-item">💡 Skills → Income → Freedom</div>
-  <div class="sep"></div>
-  <div class="strip-item">🔒 Join the Waitlist Today</div>
+  <div class="strip-track">
+    <!-- Set 1 -->
+    <div class="strip-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D2158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Launching Soon</div><div class="sep"></div>
+    <div class="strip-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D2158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>10+ Courses Coming</div><div class="sep"></div>
+    <div class="strip-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D2158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Built for Global Learners</div><div class="sep"></div>
+    <div class="strip-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D2158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>Skills → Income → Freedom</div><div class="sep"></div>
+    <div class="strip-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D2158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Join the Waitlist Today</div><div class="sep"></div>
+    <div class="strip-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D2158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Where Skills Become Income</div><div class="sep"></div>
+    <!-- Set 2 — duplicate for seamless loop -->
+    <div class="strip-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D2158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Launching Soon</div><div class="sep"></div>
+    <div class="strip-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D2158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>10+ Courses Coming</div><div class="sep"></div>
+    <div class="strip-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D2158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Built for Global Learners</div><div class="sep"></div>
+    <div class="strip-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D2158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>Skills → Income → Freedom</div><div class="sep"></div>
+    <div class="strip-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D2158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Join the Waitlist Today</div><div class="sep"></div>
+    <div class="strip-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D2158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Where Skills Become Income</div><div class="sep"></div>
+  </div>
 </div>
 
 <!-- ABOUT -->
