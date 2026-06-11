@@ -434,6 +434,51 @@
       .ft-bottom { flex-direction:column; text-align:center; }
       .strip { gap:18px; }
     }
+    /* ── CONTACT ── */
+    #contact { padding:100px 6%; background:var(--off-white); position:relative; }
+    #contact::before { content:''; position:absolute; top:0; left:0; right:0; height:4px;
+      background:linear-gradient(90deg,var(--blue),var(--yellow),var(--blue)); }
+    .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:start; max-width:1200px; margin:0 auto; }
+    .contact-lead { color:var(--gray); font-size:1rem; line-height:1.75; margin:14px 0 36px; max-width:460px; }
+    .contact-cards { display:flex; flex-direction:column; gap:16px; }
+    .contact-card {
+      display:flex; align-items:center; gap:18px;
+      background:var(--white); border:2px solid transparent;
+      border-radius:18px; padding:22px 24px;
+      text-decoration:none; transition:all .3s;
+      box-shadow:0 2px 18px rgba(27,58,140,.06);
+    }
+    .contact-card:hover { border-color:var(--yellow); transform:translateY(-3px); box-shadow:0 10px 36px rgba(27,58,140,.12); }
+    .contact-card-icon {
+      width:52px; height:52px; border-radius:14px; flex-shrink:0;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .contact-card-icon.email { background:rgba(27,58,140,.1); }
+    .contact-card-icon.whatsapp { background:rgba(37,211,102,.12); }
+    .contact-card-lbl { font-size:.72rem; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:var(--gray); margin-bottom:4px; }
+    .contact-card-val { font-family:'Syne',sans-serif; font-size:.95rem; font-weight:700; color:var(--navy); }
+    .contact-form-box { background:var(--white); border-radius:24px; padding:36px; box-shadow:0 4px 32px rgba(27,58,140,.09); }
+    .contact-form-box h3 { font-size:1.3rem; font-weight:700; color:var(--navy); margin-bottom:22px; }
+    .cf-field { display:flex; flex-direction:column; gap:12px; }
+    .cf-field input, .cf-field textarea {
+      padding:15px 18px; border-radius:12px;
+      border:2px solid var(--light-gray);
+      background:var(--off-white); color:var(--dark);
+      font-family:'Outfit',sans-serif; font-size:.95rem;
+      outline:none; transition:border-color .2s; resize:none;
+    }
+    .cf-field input:focus, .cf-field textarea:focus { border-color:var(--blue); background:var(--white); }
+    .cf-field input::placeholder, .cf-field textarea::placeholder { color:var(--gray); }
+    .cf-btn {
+      padding:16px 28px; background:var(--navy); color:var(--white);
+      border:none; border-radius:12px;
+      font-family:'Syne',sans-serif; font-size:.95rem; font-weight:700;
+      cursor:pointer; transition:all .2s; margin-top:4px;
+    }
+    .cf-btn:hover { background:var(--blue); transform:translateY(-2px); box-shadow:0 8px 28px rgba(27,58,140,.3); }
+    .cf-success { display:none; background:rgba(139,155,46,.12); border:1px solid var(--olive);
+      color:#6a7a10; padding:14px 18px; border-radius:10px; font-weight:600; font-size:.88rem; margin-top:8px; }
+    @media(max-width:768px) { .contact-grid { grid-template-columns:1fr; gap:40px; } }
   </style>
 </head>
 <body>
@@ -837,6 +882,51 @@
   </div>
 </section>
 
+<!-- CONTACT -->
+<section id="contact">
+  <div style="max-width:1200px;margin:0 auto">
+    <div class="section-label">Get In Touch</div>
+    <h2 class="section-title">We'd Love to <span style="color:var(--blue)">Hear</span> From You</h2>
+    <p class="contact-lead">Have a question, idea, or just want to know more about SkillHaven? Reach out through any of the channels below and we'll get back to you.</p>
+    <div class="contact-grid">
+      <!-- Contact Info -->
+      <div>
+        <div class="contact-cards">
+          <a href="mailto:skillhavenofficial01@gmail.com" class="contact-card">
+            <div class="contact-card-icon email">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1B3A8C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div>
+              <div class="contact-card-lbl">Email Us</div>
+              <div class="contact-card-val">skillhavenofficial01@gmail.com</div>
+            </div>
+          </a>
+          <a href="https://wa.me/2347041591742" target="_blank" rel="noopener" class="contact-card">
+            <div class="contact-card-icon whatsapp">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            </div>
+            <div>
+              <div class="contact-card-lbl">WhatsApp</div>
+              <div class="contact-card-val">+234 704 159 1742</div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <!-- Contact Form -->
+      <div class="contact-form-box">
+        <h3>Send Us a Message</h3>
+        <div class="cf-field">
+          <input type="text" id="cfName" placeholder="Your full name" />
+          <input type="email" id="cfEmail" placeholder="Your email address" />
+          <textarea id="cfMessage" placeholder="Your message..." rows="5"></textarea>
+          <button class="cf-btn" onclick="submitContact()">Send Message →</button>
+          <div class="cf-success" id="cfSuccess">✅ Message sent! We'll get back to you soon.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer>
   <div class="ft-grid">
@@ -870,14 +960,14 @@
       <h5>Company</h5>
       <a href="#about">About Us</a>
       <a href="#values">Our Values</a>
-      <a href="#">Contact</a>
-      <a href="#">Partnerships</a>
+      <a href="#contact">Contact</a>
+      <a href="#">Partnerships — Coming Soon</a>
     </div>
     <div class="ft-col">
       <h5>Legal</h5>
-      <a href="#">Privacy Policy</a>
-      <a href="#">Terms of Use</a>
-      <a href="#">Cookie Policy</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Use</a>
+      <a href="cookie.html">Cookie Policy</a>
     </div>
   </div>
   <div class="ft-bottom">
@@ -950,7 +1040,30 @@
     }
   }
 
-  // Scroll-reveal observer
+  // Contact form submit
+  async function submitContact() {
+    const name    = document.getElementById('cfName').value.trim();
+    const email   = document.getElementById('cfEmail').value.trim();
+    const message = document.getElementById('cfMessage').value.trim();
+    const btn     = document.querySelector('.cf-btn');
+    if (!name)    { alert('Please enter your full name.'); return; }
+    if (!email || !email.includes('@')) { alert('Please enter a valid email address.'); return; }
+    if (!message) { alert('Please enter your message.'); return; }
+    btn.textContent = '⏳ Sending...'; btn.disabled = true;
+    try {
+      await fetch('https://hook.eu1.make.com/d5o7wy62javecc5b5ucb3n4qj9rwghr0', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ name, email, message, source:'SkillHaven Contact Form',
+          date: new Date().toLocaleString('en-NG',{timeZone:'Africa/Lagos'}) })
+      });
+      ['cfName','cfEmail','cfMessage'].forEach(id => document.getElementById(id).style.display='none');
+      btn.style.display='none';
+      document.getElementById('cfSuccess').style.display='block';
+    } catch(err) {
+      btn.textContent='Send Message →'; btn.disabled=false;
+      alert('Something went wrong. Please try again.');
+    }
+  }
   const revealObs = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
