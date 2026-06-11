@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkillHaven — Where Skills Become Income</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy:       #0D2158;
+      --blue:       #1B3A8C;
+      --blue-mid:   #2549B0;
+      --yellow:     #FFD700;
+      --yellow-dk:  #E8C200;
+      --yellow-pale:#FFFAE0;
+      --olive:      #8B9B2E;
+      --white:      #FFFFFF;
+      --off-white:  #F4F7FF;
+      --dark:       #07122A;
+      --gray:       #5E6A88;
+      --light-gray: #E4E9F8;
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Outfit',sans-serif; color:var(--dark); background:var(--white); overflow-x:hidden; }
+    h1,h2,h3,h4,h5 { font-family:'Syne',sans-serif; }
+
+    /* ── NAV ── */
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:1000;
+      padding:18px 6%;
+      display:flex; align-items:center; justify-content:space-between;
+      background:rgba(13,33,88,0.96);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid rgba(255,215,0,0.18);
+      transition:padding .25s;
+    }
+    nav.scrolled { padding:12px 6%; }
+    .nav-logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+    .nav-wordmark { font-family:'Syne',sans-serif; font-size:1.4rem; font-weight:800; color:#fff; letter-spacing:-.4px; }
+    .nav-wordmark span { color:var(--yellow); }
+    .nav-links { display:flex; align-items:center; gap:32px; list-style:none; }
+    .nav-links a { color:rgba(255,255,255,.75); text-decoration:none; font-size:.88rem; font-weight:500; transition:color .2s; }
+    .nav-links a:hover { color:var(--yellow); }
+    .nav-cta {
+      background:var(--yellow) !important; color:var(--navy) !important;
+      padding:10px 22px; border-radius:50px;
+      font-family:'Syne',sans-serif; font-weight:700 !important;
+      transition:all .2s !important;
+    }
+    .nav-cta:hover { background:var(--yellow-dk) !important; box-shadow:0 4px 20px rgba(255,215,0,.45) !important; transform:translateY(-1px); }
+    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; }
+    .hamburger span { width:25px; height:2px; background:#fff; display:block; border-radius:2px; }
+
+    /* ── HERO ── */
+    #home {
+      min-height:100vh; background:var(--navy);
+      position:relative; overflow:hidden;
+      display:flex; align-items:center;
+      padding:130px 6% 80px;
+    }
+    .hero-dots {
+      position:absolute; inset:0;
+      background-image:radial-gradient(circle, rgba(255,215,0,.13) 1px, transparent 1px);
+      background-size:42px 42px;
+    }
+    .hero-blob {
+      position:absolute; border-radius:50%; filter:blur(80px); opacity:.12;
+    }
+    .hero-blob.one { width:550px; height:550px; background:var(--yellow); top:-160px; right:-80px; }
+    .hero-blob.two { width:350px; height:350px; background:var(--blue-mid); bottom:-130px; left:-80px; }
+
+    .hero-content { position:relative; z-index:2; max-width:660px; }
+
+    .badge {
+      display:inline-flex; align-items:center; gap:8px;
+      background:rgba(255,215,0,.14); border:1px solid rgba(255,215,0,.38);
+      color:var(--yellow); padding:8px 18px; border-radius:50px;
+      font-size:.74rem; font-weight:700; letter-spacing:1.2px; text-transform:uppercase;
+      margin-bottom:28px;
+      animation:fadeUp .6s ease both;
+    }
+    .badge .dot { width:6px; height:6px; background:var(--yellow); border-radius:50%; animation:blink 2s infinite; }
+    @keyframes blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.4)} }
+
+    .hero-h1 {
+      font-size:clamp(2.8rem,5.5vw,4.8rem); font-weight:800;
+      color:#fff; line-height:1.08; margin-bottom:24px;
+      animation:fadeUp .6s .1s ease both;
+    }
+    .hero-h1 .hl {
+      color:var(--yellow);
+      text-decoration:underline; text-decoration-color:rgba(255,215,0,.35);
+      text-underline-offset:6px;
+    }
+    .hero-sub {
+      font-size:1.08rem; color:rgba(255,255,255,.68); line-height:1.75;
+      max-width:540px; margin-bottom:36px;
+      animation:fadeUp .6s .2s ease both;
+    }
+    .hero-form {
+      display:flex; gap:12px; max-width:500px;
+      animation:fadeUp .6s .3s ease both;
+    }
+    .hero-form input {
+      flex:1; padding:16px 20px; border-radius:50px;
+      border:2px solid rgba(255,255,255,.16);
+      background:rgba(255,255,255,.09);
+      color:#fff; font-family:'Outfit',sans-serif; font-size:.95rem;
+      outline:none; transition:border-color .2s;
+    }
+    .hero-form input::placeholder { color:rgba(255,255,255,.42); }
+    .hero-form input:focus { border-color:var(--yellow); }
+    .hero-form button {
+      padding:16px 26px; background:var(--yellow); color:var(--navy);
+      border:none; border-radius:50px;
+      font-family:'Syne',sans-serif; font-size:.88rem; font-weight:700;
+      cursor:pointer; white-space:nowrap; transition:all .2s;
+    }
+    .hero-form button:hover { background:var(--yellow-dk); transform:translateY(-2px); box-shadow:0 8px 28px rgba(255,215,0,.5); }
+
+    .hero-stats {
+      display:flex; gap:36px; margin-top:44px;
+      animation:fadeUp .6s .4s ease both;
+    }
+    .hero-stat { display:flex; flex-direction:column; }
+    .hero-stat-n { font-family:'Syne',sans-serif; font-size:1.9rem; font-weight:800; color:var(--yellow); }
+    .hero-stat-l { font-size:.75rem; color:rgba(255,255,255,.5); text-transform:uppercase; letter-spacing:.6px; margin-top:2px; }
+
+    /* Floating shield visual */
+    .hero-visual {
+      position:absolute; right:6%; top:50%; transform:translateY(-50%);
+      z-index:2; animation:floatY 5s ease-in-out infinite;
+    }
+    @keyframes floatY { 0%,100%{transform:translateY(-50%)} 50%{transform:translateY(-52%) translateX(-8px)} }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+
+    /* ── STRIP ── */
+    /* ── MARQUEE STRIP ── */
+    .strip {
+      background:var(--yellow); overflow:hidden;
+      position:relative; padding:0;
+      border-top:2px solid rgba(13,33,88,.08);
+      border-bottom:2px solid rgba(13,33,88,.08);
+    }
+    .strip-track {
+      display:flex; align-items:center;
+      width:max-content; gap:0;
+      animation:marquee 28s linear infinite;
+      padding:15px 0;
+    }
+    .strip-track:hover { animation-play-state:paused; }
+    @keyframes marquee {
+      from { transform:translateX(0); }
+      to   { transform:translateX(-50%); }
+    }
+    .strip-item {
+      display:flex; align-items:center; gap:9px;
+      font-family:'Syne',sans-serif; font-weight:700; font-size:.85rem;
+      color:var(--navy); white-space:nowrap;
+      padding:0 36px;
+    }
+    .strip-item svg { flex-shrink:0; }
+    .sep {
+      width:6px; height:6px; background:var(--navy);
+      border-radius:50%; opacity:.3; flex-shrink:0;
+    }
+
+    /* ── SECTION COMMONS ── */
+    .section-label {
+      display:inline-flex; align-items:center; gap:8px;
+      font-size:.72rem; font-weight:700; letter-spacing:2px;
+      text-transform:uppercase; color:var(--blue); margin-bottom:14px;
+    }
+    .section-label::before { content:''; width:22px; height:2px; background:var(--yellow); }
+    .section-title { font-size:clamp(1.9rem,3.5vw,2.9rem); font-weight:800; color:var(--navy); line-height:1.15; }
+    .section-center { text-align:center; }
+    .section-center .section-label { justify-content:center; }
+
+    /* ── ABOUT ── */
+    #about { padding:100px 6%; background:var(--off-white); position:relative; }
+    #about::before { content:''; position:absolute; top:0; left:0; right:0; height:4px;
+      background:linear-gradient(90deg,var(--blue),var(--yellow),var(--blue)); }
+
+    .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; max-width:1200px; margin:0 auto; }
+    .about-lead { font-size:1.05rem; color:var(--gray); line-height:1.82; margin-bottom:16px; }
+    .about-lead strong { color:var(--navy); }
+
+    /* About photo */
+    .about-img {
+      width:100%; border-radius:18px; margin-top:28px;
+      object-fit:cover; height:280px; display:block;
+      border:3px solid var(--yellow);
+      box-shadow:0 10px 36px rgba(27,58,140,.16);
+    }
+
+    /* Global classroom section */
+    #global { position:relative; overflow:hidden; height:420px; }
+    .global-img { width:100%; height:100%; object-fit:cover; object-position:center top; display:block; }
+    .global-overlay {
+      position:absolute; inset:0;
+      background:linear-gradient(135deg,rgba(13,33,88,.86),rgba(27,58,140,.75));
+      display:flex; align-items:center; justify-content:center;
+      flex-direction:column; text-align:center; padding:40px 6%;
+    }
+    .global-overlay h2 { font-size:clamp(1.8rem,3.5vw,2.7rem); font-weight:800; color:#fff; margin-bottom:14px; line-height:1.2; }
+    .global-overlay h2 span { color:var(--yellow); }
+    .global-overlay p { color:rgba(255,255,255,.72); font-size:1rem; max-width:560px; line-height:1.75; }
+
+    /* Blog image wrapper */
+    .blog-thumb-wrap { position:relative; height:196px; overflow:hidden; }
+    .blog-thumb-wrap img { width:100%; height:100%; object-fit:cover; object-position:center; display:block; }
+    .blog-thumb-wrap .blog-tag { position:absolute; bottom:16px; left:16px; }
+
+    /* Skill interest select */
+    .wl-form select {
+      padding:17px 22px; border-radius:14px;
+      border:2px solid rgba(255,255,255,.15);
+      background:rgba(255,255,255,.08) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.5)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 18px center;
+      color:#fff; font-family:'Outfit',sans-serif; font-size:.97rem;
+      outline:none; transition:border-color .2s;
+      -webkit-appearance:none; appearance:none; cursor:pointer;
+    }
+    .wl-form select:focus { border-color:var(--yellow); }
+    .wl-form select option { background:#0D2158; color:#fff; }
+
+    .quad { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+    .qcard {
+      background:var(--white); border-radius:18px; padding:26px 22px;
+      border:2px solid transparent; box-shadow:0 2px 18px rgba(27,58,140,.06);
+      transition:all .3s;
+    }
+    .qcard:hover { border-color:var(--yellow); transform:translateY(-4px); box-shadow:0 10px 40px rgba(27,58,140,.12); }
+    .qcard.navy { background:var(--navy); }
+    .qcard.navy h4 { color:var(--yellow); }
+    .qcard.navy p { color:rgba(255,255,255,.65); }
+    .qcard.gold { background:var(--yellow); }
+    .qcard.gold h4, .qcard.gold p { color:var(--navy); }
+    .qcard.gold p { opacity:.75; }
+    .q-icon { margin-bottom:12px; display:flex; }
+    .qcard h4 { font-size:.95rem; font-weight:700; margin-bottom:7px; color:var(--navy); }
+    .qcard p { font-size:.82rem; color:var(--gray); line-height:1.6; }
+
+    /* ── VALUES BAND ── */
+    #values { padding:72px 6%; background:var(--yellow); }
+    .val-inner { max-width:1200px; margin:0 auto; display:flex; align-items:center; gap:64px; flex-wrap:wrap; }
+    .val-title { font-size:clamp(1.8rem,3vw,2.5rem); font-weight:800; color:var(--navy); max-width:260px; line-height:1.2; }
+    .val-divider { width:3px; height:100px; background:var(--navy); opacity:.2; flex-shrink:0; }
+    .val-list { display:flex; gap:36px; flex-wrap:wrap; }
+    .val-item { display:flex; align-items:center; gap:10px; }
+    .val-dot { width:9px; height:9px; background:var(--navy); border-radius:50%; flex-shrink:0; }
+    .val-name { font-family:'Syne',sans-serif; font-size:1.25rem; font-weight:700; color:var(--navy); }
+
+    /* ── SERVICES ── */
+    #services { padding:100px 6%; background:var(--navy); position:relative; overflow:hidden; }
+    .svc-dots { position:absolute; inset:0; background-image:radial-gradient(circle,rgba(255,215,0,.06) 1px,transparent 1px); background-size:48px 48px; }
+    .svc-header { text-align:center; max-width:580px; margin:0 auto 60px; position:relative; z-index:1; }
+    .svc-header .section-label { color:var(--yellow); justify-content:center; }
+    .svc-header .section-title { color:#fff; }
+    .svc-header p { color:rgba(255,255,255,.62); font-size:.97rem; line-height:1.75; margin-top:14px; }
+
+    .svc-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; max-width:1200px; margin:0 auto; position:relative; z-index:1; }
+    .svc-card {
+      background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1);
+      border-radius:24px; padding:40px 32px;
+      transition:all .3s; position:relative; overflow:hidden;
+    }
+    .svc-card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:3px;
+      background:var(--yellow); transform:scaleX(0); transition:transform .3s; }
+    .svc-card:hover { background:rgba(255,255,255,.1); transform:translateY(-6px); border-color:rgba(255,215,0,.28); }
+    .svc-card:hover::after { transform:scaleX(1); }
+    .svc-num { font-size:3.5rem; font-weight:800; color:rgba(255,215,0,.1); line-height:1; margin-bottom:12px; }
+    .svc-icon {
+      width:54px; height:54px; background:rgba(255,215,0,.14);
+      border:1px solid rgba(255,215,0,.28); border-radius:14px;
+      display:flex; align-items:center; justify-content:center;
+      margin-bottom:20px;
+    }
+    .svc-card h3 { font-size:1.25rem; font-weight:700; color:#fff; margin-bottom:12px; }
+    .svc-card p { font-size:.88rem; color:rgba(255,255,255,.6); line-height:1.72; }
+
+    /* ── COURSES ── */
+    #courses { padding:100px 6%; background:var(--white); }
+    .courses-hdr { text-align:center; max-width:580px; margin:0 auto 56px; }
+    .courses-hdr p { color:var(--gray); font-size:.97rem; line-height:1.7; margin-top:12px; }
+    .courses-hdr .section-label { justify-content:center; }
+
+    .crs-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; max-width:1200px; margin:0 auto 36px; }
+    .crs-card {
+      border-radius:20px; overflow:hidden;
+      border:2px solid var(--light-gray); transition:all .35s;
+    }
+    .crs-card:hover { border-color:var(--blue); transform:translateY(-6px); box-shadow:0 18px 50px rgba(27,58,140,.14); }
+    .crs-thumb { height:154px; position:relative; overflow:hidden; }
+    .crs-img {
+      position:absolute; inset:0; width:100%; height:100%;
+      object-fit:cover; object-position:center; display:block;
+      transition:transform .45s ease;
+    }
+    .crs-card:hover .crs-img { transform:scale(1.07); }
+    .crs-overlay {
+      position:absolute; inset:0; z-index:1;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .t1{background:linear-gradient(135deg,rgba(13,33,88,.78),rgba(37,73,176,.6))}
+    .t2{background:linear-gradient(135deg,rgba(21,21,48,.82),rgba(31,32,96,.65))}
+    .t3{background:linear-gradient(135deg,rgba(86,96,16,.78),rgba(122,138,32,.6))}
+    .t4{background:linear-gradient(135deg,rgba(27,58,140,.78),rgba(13,33,88,.65))}
+    .t5{background:linear-gradient(135deg,rgba(13,48,16,.82),rgba(30,92,32,.65))}
+    .t6{background:linear-gradient(135deg,rgba(58,13,69,.82),rgba(107,30,122,.65))}
+    .crs-lock {
+      position:absolute; top:10px; right:10px;
+      background:rgba(255,255,255,.2); backdrop-filter:blur(8px);
+      border:1px solid rgba(255,255,255,.3); color:#fff;
+      padding:3px 10px; border-radius:50px;
+      font-size:.68rem; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+    }
+    .crs-body { padding:18px 20px 22px; }
+    .crs-cat { font-size:.68rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--blue); margin-bottom:6px; }
+    .crs-name { font-family:'Syne',sans-serif; font-size:.98rem; font-weight:700; color:var(--navy); margin-bottom:7px; }
+    .crs-desc { font-size:.8rem; color:var(--gray); line-height:1.6; }
+    .crs-note {
+      text-align:center; padding:14px 28px;
+      background:var(--yellow-pale); border:2px dashed var(--yellow-dk);
+      border-radius:12px; max-width:480px; margin:0 auto;
+      font-size:.88rem; color:var(--navy); font-weight:600;
+    }
+
+    /* ── BLOG ── */
+    #blog { padding:100px 6%; background:var(--off-white); }
+    .blog-inner { max-width:1200px; margin:0 auto; }
+    .blog-intro p { color:var(--gray); max-width:480px; font-size:.97rem; line-height:1.72; margin:12px 0 48px; }
+
+    .blog-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+    .blog-card {
+      background:var(--white); border-radius:20px; overflow:hidden;
+      border:2px solid transparent; box-shadow:0 2px 18px rgba(27,58,140,.06);
+      transition:all .3s;
+    }
+    .blog-card:hover { border-color:var(--yellow); transform:translateY(-4px); box-shadow:0 14px 44px rgba(27,58,140,.12); }
+    .blog-thumb {
+      height:196px; display:flex; align-items:flex-end; padding:18px;
+    }
+    .bt1 { background:linear-gradient(180deg,rgba(13,33,88,.2) 0%,rgba(13,33,88,.92) 100%), linear-gradient(135deg,#FFD700,#FF8C00); }
+    .blog-tag {
+      background:var(--yellow); color:var(--navy);
+      padding:4px 12px; border-radius:50px;
+      font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:1px;
+    }
+    .blog-body { padding:22px; }
+    .blog-date { font-size:.75rem; color:var(--gray); margin-bottom:7px; }
+    .blog-title { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; color:var(--navy); margin-bottom:10px; line-height:1.42; }
+    .blog-excerpt { font-size:.82rem; color:var(--gray); line-height:1.65; margin-bottom:14px; }
+    .blog-link { font-size:.82rem; color:var(--blue); font-weight:600; text-decoration:none; }
+    .blog-link:hover { color:var(--navy); }
+
+    /* ── WAITLIST ── */
+    #waitlist { padding:120px 6%; background:var(--navy); position:relative; overflow:hidden; text-align:center; }
+    .wl-glow {
+      position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+      width:700px; height:700px;
+      background:radial-gradient(circle,rgba(255,215,0,.08) 0%,transparent 68%);
+      border-radius:50%; pointer-events:none;
+    }
+    .wl-content { position:relative; z-index:2; max-width:580px; margin:0 auto; }
+    .wl-content .section-label { justify-content:center; color:var(--yellow); }
+    .wl-content .section-title { color:#fff; }
+    .wl-content > p { color:rgba(255,255,255,.62); font-size:.97rem; line-height:1.75; margin:16px 0 40px; }
+
+    .wl-form { display:flex; flex-direction:column; gap:14px; max-width:460px; margin:0 auto; }
+    .wl-form input {
+      padding:17px 22px; border-radius:14px;
+      border:2px solid rgba(255,255,255,.15);
+      background:rgba(255,255,255,.08); color:#fff;
+      font-family:'Outfit',sans-serif; font-size:.97rem;
+      outline:none; transition:border-color .2s;
+    }
+    .wl-form input::placeholder { color:rgba(255,255,255,.38); }
+    .wl-form input:focus { border-color:var(--yellow); }
+    .wl-form button {
+      padding:18px 28px; background:var(--yellow); color:var(--navy);
+      border:none; border-radius:14px;
+      font-family:'Syne',sans-serif; font-size:.97rem; font-weight:700;
+      cursor:pointer; transition:all .2s; letter-spacing:.3px;
+    }
+    .wl-form button:hover { background:var(--yellow-dk); transform:translateY(-2px); box-shadow:0 10px 32px rgba(255,215,0,.42); }
+    .wl-note { margin-top:14px; font-size:.78rem; color:rgba(255,255,255,.38); }
+    .wl-success {
+      display:none; background:rgba(139,155,46,.18);
+      border:1px solid var(--olive); color:#cce000;
+      padding:16px 24px; border-radius:12px; font-weight:600;
+    }
+
+    /* ── FOOTER ── */
+    footer { background:var(--dark); padding:60px 6% 28px; }
+    .ft-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:56px; padding-bottom:40px; border-bottom:1px solid rgba(255,255,255,.08); margin-bottom:28px; }
+    .ft-brand-p { color:rgba(255,255,255,.48); font-size:.85rem; line-height:1.72; margin:14px 0 22px; max-width:270px; }
+    .ft-socials { display:flex; gap:10px; }
+    .ft-soc {
+      width:36px; height:36px; border-radius:10px;
+      background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12);
+      display:flex; align-items:center; justify-content:center;
+      color:rgba(255,255,255,.55); text-decoration:none; font-size:.8rem;
+      transition:all .2s;
+    }
+    .ft-soc:hover { background:var(--yellow); color:var(--navy); border-color:var(--yellow); }
+    .ft-col h5 { font-family:'Syne',sans-serif; font-size:.78rem; font-weight:700; color:#fff; text-transform:uppercase; letter-spacing:1.2px; margin-bottom:18px; }
+    .ft-col a { display:block; color:rgba(255,255,255,.48); text-decoration:none; font-size:.84rem; margin-bottom:11px; transition:color .2s; }
+    .ft-col a:hover { color:var(--yellow); }
+    .ft-bottom { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
+    .ft-bottom p { font-size:.76rem; color:rgba(255,255,255,.28); }
+    .ft-tag { font-family:'Syne',sans-serif; font-size:.76rem; font-weight:700; color:var(--yellow); opacity:.65; }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:1024px) {
+      .about-grid,.svc-grid,.crs-grid,.blog-grid { grid-template-columns:1fr 1fr; }
+      .ft-grid { grid-template-columns:1fr 1fr; gap:36px; }
+    }
+    @media(max-width:768px) {
+      .nav-links { display:none; flex-direction:column; position:absolute; top:100%; left:0; right:0;
+        background:rgba(13,33,88,.98); padding:20px 6%; gap:16px; }
+      .nav-links.open { display:flex; }
+      .hamburger { display:flex; }
+      .hero-visual { display:none; }
+      .about-grid { grid-template-columns:1fr; gap:40px; }
+      .quad { grid-template-columns:1fr 1fr; }
+      .svc-grid,.crs-grid,.blog-grid { grid-template-columns:1fr; }
+      .hero-form { flex-direction:column; }
+      .hero-stats { gap:24px; }
+      .val-inner { flex-direction:column; gap:32px; }
+      .val-divider { display:none; }
+      .ft-grid { grid-template-columns:1fr; gap:28px; }
+      .ft-bottom { flex-direction:column; text-align:center; }
+      .strip { gap:18px; }
+    }
+    /* ── CONTACT ── */
+    #contact { padding:100px 6%; background:var(--off-white); position:relative; }
+    #contact::before { content:''; position:absolute; top:0; left:0; right:0; height:4px;
+      background:linear-gradient(90deg,var(--blue),var(--yellow),var(--blue)); }
+    .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:start; max-width:1200px; margin:0 auto; }
+    .contact-lead { color:var(--gray); font-size:1rem; line-height:1.75; margin:14px 0 36px; max-width:460px; }
+    .contact-cards { display:flex; flex-direction:column; gap:16px; }
+    .contact-card {
+      display:flex; align-items:center; gap:18px;
+      background:var(--white); border:2px solid transparent;
+      border-radius:18px; padding:22px 24px;
+      text-decoration:none; transition:all .3s;
+      box-shadow:0 2px 18px rgba(27,58,140,.06);
+    }
+    .contact-card:hover { border-color:var(--yellow); transform:translateY(-3px); box-shadow:0 10px 36px rgba(27,58,140,.12); }
+    .contact-card-icon {
+      width:52px; height:52px; border-radius:14px; flex-shrink:0;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .contact-card-icon.email { background:rgba(27,58,140,.1); }
+    .contact-card-icon.whatsapp { background:rgba(37,211,102,.12); }
+    .contact-card-lbl { font-size:.72rem; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:var(--gray); margin-bottom:4px; }
+    .contact-card-val { font-family:'Syne',sans-serif; font-size:.95rem; font-weight:700; color:var(--navy); }
+    .contact-form-box { background:var(--white); border-radius:24px; padding:36px; box-shadow:0 4px 32px rgba(27,58,140,.09); }
+    .contact-form-box h3 { font-size:1.3rem; font-weight:700; color:var(--navy); margin-bottom:22px; }
+    .cf-field { display:flex; flex-direction:column; gap:12px; }
+    .cf-field input, .cf-field textarea {
+      padding:15px 18px; border-radius:12px;
+      border:2px solid var(--light-gray);
+      background:var(--off-white); color:var(--dark);
+      font-family:'Outfit',sans-serif; font-size:.95rem;
+      outline:none; transition:border-color .2s; resize:none;
+    }
+    .cf-field input:focus, .cf-field textarea:focus { border-color:var(--blue); background:var(--white); }
+    .cf-field input::placeholder, .cf-field textarea::placeholder { color:var(--gray); }
+    .cf-btn {
+      padding:16px 28px; background:var(--navy); color:var(--white);
+      border:none; border-radius:12px;
+      font-family:'Syne',sans-serif; font-size:.95rem; font-weight:700;
+      cursor:pointer; transition:all .2s; margin-top:4px;
+    }
+    .cf-btn:hover { background:var(--blue); transform:translateY(-2px); box-shadow:0 8px 28px rgba(27,58,140,.3); }
+    .cf-success { display:none; background:rgba(139,155,46,.12); border:1px solid var(--olive);
+      color:#6a7a10; padding:14px 18px; border-radius:10px; font-weight:600; font-size:.88rem; margin-top:8px; }
+    @media(max-width:768px) { .contact-grid { grid-template-columns:1fr; gap:40px; } }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#home" class="nav-logo">
+    <svg width="38" height="44" viewBox="0 0 38 44" fill="none">
+      <path d="M19 1L1 7.5V21C1 30.8 9 39.5 19 43C29 39.5 37 30.8 37 21V7.5L19 1Z" fill="#1B3A8C"/>
+      <path d="M19 1L1 7.5V21C1 30.8 9 39.5 19 43C29 39.5 37 30.8 37 21V7.5L19 1Z" stroke="rgba(255,215,0,0.3)" stroke-width="1.5" fill="none"/>
+      <circle cx="19" cy="21" r="10" fill="#FFD700"/>
+      <line x1="19" y1="14" x2="19" y2="22" stroke="#0D2158" stroke-width="2.5" stroke-linecap="round"/>
+      <polyline points="15,17.5 19,13.5 23,17.5" stroke="#0D2158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <line x1="16" y1="25" x2="22" y2="25" stroke="#8B9B2E" stroke-width="2" stroke-linecap="round"/>
+      <line x1="16.5" y1="28" x2="21.5" y2="28" stroke="#8B9B2E" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <span class="nav-wordmark">Skill<span>Haven</span></span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#courses">Courses</a></li>
+    <li><a href="#blog">Blog</a></li>
+    <li><a href="#waitlist" class="nav-cta">Join Waitlist</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleNav()"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-dots"></div>
+  <div class="hero-blob one"></div>
+  <div class="hero-blob two"></div>
+
+  <div class="hero-content">
+    <div class="badge"><span class="dot"></span>Launching Soon — Be First</div>
+    <h1 class="hero-h1">
+      Where <span class="hl">Skills</span><br>
+      Become Income &amp;<br>
+      Brands Become<br>Businesses.
+    </h1>
+    <p class="hero-sub">
+      Stop waiting for opportunities. Build your skills, grow your brand, and earn on your own terms. SkillHaven is the global platform built for those serious about turning knowledge into real income.
+    </p>
+    <div class="hero-form">
+      <input type="email" id="heroEmail" placeholder="Enter your email address" />
+      <button onclick="quickJoin()">Join Waitlist</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="hero-stat-n">10+</span><span class="hero-stat-l">Courses Planned</span></div>
+      <div class="hero-stat"><span class="hero-stat-n">3</span><span class="hero-stat-l">Core Services</span></div>
+      <div class="hero-stat"><span class="hero-stat-n">🌍</span><span class="hero-stat-l">Global Platform</span></div>
+    </div>
+  </div>
+
+  <!-- Floating Shield 3D -->
+  <div class="hero-visual" aria-hidden="true">
+    <svg width="320" height="370" viewBox="0 0 320 370" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="160" cy="354" rx="82" ry="13" fill="rgba(0,0,0,0.28)"/>
+      <!-- Glow -->
+      <ellipse cx="160" cy="185" rx="118" ry="128" fill="rgba(255,215,0,0.06)"/>
+      <!-- Shield body -->
+      <path d="M160 18L40 65V155C40 232 96 302 160 332C224 302 280 232 280 155V65L160 18Z" fill="#1B3A8C"/>
+      <!-- Shield inner highlight -->
+      <path d="M160 18L40 65V155C40 232 96 302 160 332L160 18Z" fill="rgba(255,255,255,0.04)"/>
+      <!-- Shield border -->
+      <path d="M160 18L40 65V155C40 232 96 302 160 332C224 302 280 232 280 155V65L160 18Z" stroke="rgba(255,215,0,0.32)" stroke-width="2" fill="none"/>
+      <!-- Inner rim -->
+      <path d="M160 42L60 82V155C60 220 108 282 160 308C212 282 260 220 260 155V82L160 42Z" stroke="rgba(255,215,0,0.14)" stroke-width="1.2" fill="none"/>
+      <!-- Yellow circle -->
+      <circle cx="160" cy="168" r="68" fill="#FFD700"/>
+      <circle cx="160" cy="168" r="58" fill="#FFD700" opacity="0.85"/>
+      <!-- Bulb body -->
+      <path d="M160 120C138 120 120 138 120 160C120 176 130 190 145 198V215H175V198C190 190 200 176 200 160C200 138 182 120 160 120Z" fill="#0D2158"/>
+      <!-- Upward arrow -->
+      <line x1="160" y1="144" x2="160" y2="192" stroke="#FFD700" stroke-width="4.5" stroke-linecap="round"/>
+      <polyline points="147,157 160,143 173,157" stroke="#FFD700" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <!-- Bulb base -->
+      <rect x="147" y="217" width="26" height="4" rx="2" fill="#8B9B2E"/>
+      <rect x="150" y="225" width="20" height="4" rx="2" fill="#8B9B2E"/>
+      <!-- Shine -->
+      <ellipse cx="138" cy="144" rx="7" ry="12" fill="rgba(255,255,255,0.22)" transform="rotate(-18 138 144)"/>
+      <!-- Stars -->
+      <circle cx="62" cy="84" r="3" fill="#FFD700" opacity="0.55"/>
+      <circle cx="268" cy="122" r="2" fill="#FFD700" opacity="0.4"/>
+      <circle cx="82" cy="242" r="3.5" fill="#FFD700" opacity="0.3"/>
+      <circle cx="255" cy="260" r="2.5" fill="#FFD700" opacity="0.45"/>
+      <circle cx="114" cy="46" r="1.5" fill="white" opacity="0.45"/>
+      <circle cx="228" cy="52" r="1" fill="white" opacity="0.38"/>
+    </svg>
+  </div>
+</section>
+
+<!-- STRIP MARQUEE -->
+<div class="strip">
+  <div class="strip-track">
+    <!-- Set 1 -->
+    <div class="strip-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D2158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Launching Soon</div><div class="sep"></div>
+    <div class="strip-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D2158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>10+ Courses Coming</div><div class="sep"></div>
+    <div class="strip-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D2158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Built for Global Learners</div><div class="sep"></div>
+    <div class="strip-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D2158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>Skills → Income → Freedom</div><div class="sep"></div>
+    <div class="strip-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D2158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Join the Waitlist Today</div><div class="sep"></div>
+    <div class="strip-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D2158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Where Skills Become Income</div><div class="sep"></div>
+    <!-- Set 2 — duplicate for seamless loop -->
+    <div class="strip-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D2158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Launching Soon</div><div class="sep"></div>
+    <div class="strip-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D2158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>10+ Courses Coming</div><div class="sep"></div>
+    <div class="strip-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D2158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>Built for Global Learners</div><div class="sep"></div>
+    <div class="strip-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D2158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>Skills → Income → Freedom</div><div class="sep"></div>
+    <div class="strip-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D2158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Join the Waitlist Today</div><div class="sep"></div>
+    <div class="strip-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0D2158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Where Skills Become Income</div><div class="sep"></div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-text">
+      <div class="section-label">Our Story</div>
+      <h2 class="section-title">Education is powerful.<br>But <span style="color:var(--blue)">skills</span> are what<br>turn knowledge into income.</h2>
+      <p class="about-lead" style="margin-top:24px">
+        A young man once spent years chasing certificates. Primary school. Secondary school. University. After all those years, he stepped into the real world with hope. But reality hit hard.
+      </p>
+      <p class="about-lead">
+        Employers kept asking one simple question: <strong>"What can you actually do?"</strong> Not what he studied. Not what he memorized. But what skill he could use to <em>create value</em>.
+      </p>
+      <p class="about-lead">
+        That moment is exactly why <strong>SkillHaven exists</strong> — to bridge the gap between learning and earning, and between ideas and scalable businesses.
+      </p>
+      <img
+        src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&q=80&fit=crop"
+        alt="Graduate facing the real world — SkillHaven bridges the gap between education and income"
+        class="about-img"
+      />
+    </div>
+    <div class="quad">
+      <div class="qcard">
+        <div class="q-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1B3A8C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2" fill="#1B3A8C"/></svg>
+        </div>
+        <h4>Our Mission</h4>
+        <p>Teach profitable skills and help brands grow through structured development and execution-focused guidance.</p>
+      </div>
+      <div class="qcard navy">
+        <div class="q-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <h4>Our Vision</h4>
+        <p>Become a leading global platform for skill development and structured brand growth.</p>
+      </div>
+      <div class="qcard gold">
+        <div class="q-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0D2158" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>
+        </div>
+        <h4>What We Bridge</h4>
+        <p>The gap between learning and earning, and between ideas and scalable businesses.</p>
+      </div>
+      <div class="qcard">
+        <div class="q-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1B3A8C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        </div>
+        <h4>Our Promise</h4>
+        <p>Practical, monetizable skills with real direction — not just theoretical knowledge.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GLOBAL CLASSROOM -->
+<section id="global">
+  <img
+    src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1400&q=80&fit=crop"
+    alt="SkillHaven digital classroom — global learners"
+    class="global-img"
+  />
+  <div class="global-overlay">
+    <h2>The Internet is the Biggest<br><span>Classroom in Human History.</span></h2>
+    <p>One hour a day for a year could change everything. Business. Design. Technology. Marketing. Your future income might depend on what you do with your time online today.</p>
+  </div>
+</section>
+
+<!-- VALUES BAND -->
+<section id="values">
+  <div class="val-inner">
+    <h2 class="val-title">What We<br>Stand For</h2>
+    <div class="val-divider"></div>
+    <div class="val-list">
+      <div class="val-item"><div class="val-dot"></div><span class="val-name">Growth</span></div>
+      <div class="val-item"><div class="val-dot"></div><span class="val-name">Structure</span></div>
+      <div class="val-item"><div class="val-dot"></div><span class="val-name">Clarity</span></div>
+      <div class="val-item"><div class="val-dot"></div><span class="val-name">Excellence</span></div>
+      <div class="val-item"><div class="val-dot"></div><span class="val-name">Impact</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="svc-dots"></div>
+  <div class="svc-header">
+    <div class="section-label" style="justify-content:center;color:var(--yellow)">What We Offer</div>
+    <h2 class="section-title" style="color:#fff">Built to Help You<br>Win — At Every Stage</h2>
+    <p>From your first skill to a fully scaled brand, we provide structured support for where you are and where you're going.</p>
+  </div>
+  <div class="svc-grid">
+    <div class="svc-card">
+      <div class="svc-num">01</div>
+      <div class="svc-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      </div>
+      <h3>Profitable Skill Training</h3>
+      <p>Structured programs built to teach high-income skills — Digital Marketing, Tech, Business, Content Creation, Finance, and more — with practical monetization built in from day one.</p>
+    </div>
+    <div class="svc-card">
+      <div class="svc-num">02</div>
+      <div class="svc-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+      </div>
+      <h3>Professional Consultation</h3>
+      <p>One-on-one strategic sessions built to give you clarity, direction, and actionable growth plans tailored to your exact goals. No fluff, no guessing — just a clear path forward.</p>
+    </div>
+    <div class="svc-card">
+      <div class="svc-num">03</div>
+      <div class="svc-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+      </div>
+      <h3>Brand Growth & Development</h3>
+      <p>Strategic positioning, offer structuring, revenue planning, and scalable growth roadmaps. We help you build a brand people trust and a business that compounds over time.</p>
+    </div>
+  </div>
+</section>
+
+<!-- COURSES -->
+<section id="courses">
+  <div class="courses-hdr">
+    <div class="section-label">Coming Soon</div>
+    <h2 class="section-title">Skills That <span style="color:var(--blue)">Actually</span> Pay</h2>
+    <p>We're building a full library of courses across the most in-demand categories. Be first to access them at launch.</p>
+  </div>
+  <div class="crs-grid">
+    <div class="crs-card">
+      <div class="crs-thumb">
+        <img class="crs-img" src="https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=600&q=80&fit=crop" alt="Digital Marketing"/>
+        <div class="crs-overlay t1">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-width="3"/><line x1="9" y1="6" x2="15" y2="6"/><line x1="9" y1="10" x2="15" y2="10"/></svg>
+        </div>
+        <span class="crs-lock">Coming Soon</span>
+      </div>
+      <div class="crs-body">
+        <div class="crs-cat">Digital Marketing</div>
+        <div class="crs-name">Social Media Marketing Mastery</div>
+        <p class="crs-desc">Grow brands, generate leads, and earn with organic and paid strategies.</p>
+      </div>
+    </div>
+    <div class="crs-card">
+      <div class="crs-thumb">
+        <img class="crs-img" src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&q=80&fit=crop" alt="UI/UX Design"/>
+        <div class="crs-overlay t2">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="2" y1="20" x2="22" y2="20"/><line x1="12" y1="17" x2="12" y2="20"/></svg>
+        </div>
+        <span class="crs-lock">Coming Soon</span>
+      </div>
+      <div class="crs-body">
+        <div class="crs-cat">Tech Skills</div>
+        <div class="crs-name">UI/UX Design for Beginners</div>
+        <p class="crs-desc">Design beautiful products and land global clients from anywhere.</p>
+      </div>
+    </div>
+    <div class="crs-card">
+      <div class="crs-thumb">
+        <img class="crs-img" src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&q=80&fit=crop" alt="Business and Brand Building"/>
+        <div class="crs-overlay t3">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <span class="crs-lock">Coming Soon</span>
+      </div>
+      <div class="crs-body">
+        <div class="crs-cat">Business & Brand Building</div>
+        <div class="crs-name">Build & Scale Your Brand in 90 Days</div>
+        <p class="crs-desc">From zero to a structured, revenue-generating brand.</p>
+      </div>
+    </div>
+    <div class="crs-card">
+      <div class="crs-thumb">
+        <img class="crs-img" src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&q=80&fit=crop" alt="Content Creation"/>
+        <div class="crs-overlay t4">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
+        <span class="crs-lock">Coming Soon</span>
+      </div>
+      <div class="crs-body">
+        <div class="crs-cat">Content Creation</div>
+        <div class="crs-name">Monetize Your Content</div>
+        <p class="crs-desc">Turn your voice, story, and creativity into consistent online income.</p>
+      </div>
+    </div>
+    <div class="crs-card">
+      <div class="crs-thumb">
+        <img class="crs-img" src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=600&q=80&fit=crop" alt="Finance and Investing"/>
+        <div class="crs-overlay t5">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <span class="crs-lock">Coming Soon</span>
+      </div>
+      <div class="crs-body">
+        <div class="crs-cat">Finance & Investing</div>
+        <div class="crs-name">Personal Finance & Wealth Building</div>
+        <p class="crs-desc">Manage money, invest smart, and build lasting financial freedom.</p>
+      </div>
+    </div>
+    <div class="crs-card">
+      <div class="crs-thumb">
+        <img class="crs-img" src="https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=600&q=80&fit=crop" alt="Freelancing and Remote Work"/>
+        <div class="crs-overlay t6">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <span class="crs-lock">Coming Soon</span>
+      </div>
+      <div class="crs-body">
+        <div class="crs-cat">Freelancing & Remote Work</div>
+        <div class="crs-name">Freelance & Earn Globally</div>
+        <p class="crs-desc">Get clients worldwide and build income working on your own terms.</p>
+      </div>
+    </div>
+  </div>
+  <div class="crs-note">🔒 Full courses unlock at launch — Join the waitlist to get first access &amp; early pricing</div>
+</section>
+
+<!-- BLOG -->
+<section id="blog">
+  <div class="blog-inner">
+    <div class="blog-intro">
+      <div class="section-label">From The Blog</div>
+      <h2 class="section-title">Insights to <span style="color:var(--blue)">Grow</span> Your Income</h2>
+      <p>Free knowledge, real stories, and actionable strategies — before the platform even launches.</p>
+    </div>
+    <div class="blog-grid">
+      <div class="blog-card">
+        <div class="blog-thumb-wrap">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80&fit=crop&crop=face" alt="Two friends — two different paths after graduation" />
+          <span class="blog-tag">Career</span>
+        </div>
+        <div class="blog-body">
+          <div class="blog-date">Coming Soon</div>
+          <div class="blog-title">Two friends graduated the same year. Five years later, their lives look very different.</div>
+          <p class="blog-excerpt">The difference wasn't luck. It wasn't connection. It was skills and direction. Here's the full story.</p>
+          <a href="#waitlist" class="blog-link">Read when we launch →</a>
+        </div>
+      </div>
+      <div class="blog-card">
+        <div class="blog-thumb-wrap">
+          <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&q=80&fit=crop" alt="One hour a day online — learning vs scrolling" />
+          <span class="blog-tag">Learning</span>
+        </div>
+        <div class="blog-body">
+          <div class="blog-date">Coming Soon</div>
+          <div class="blog-title">One hour a day online. That could change everything about your financial future.</div>
+          <p class="blog-excerpt">The internet is the biggest classroom in human history. Most people are using it just to scroll. Here's a better way.</p>
+          <a href="#waitlist" class="blog-link">Read when we launch →</a>
+        </div>
+      </div>
+      <div class="blog-card">
+        <div class="blog-thumb-wrap">
+          <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80&fit=crop" alt="What can you actually do — career and skills" />
+          <span class="blog-tag">Brand Building</span>
+        </div>
+        <div class="blog-body">
+          <div class="blog-date">Coming Soon</div>
+          <div class="blog-title">"What can you actually do?" — The question that changes everything.</div>
+          <p class="blog-excerpt">Employers stopped caring what you studied. They're asking what you can build, sell, and solve. Are you ready?</p>
+          <a href="#waitlist" class="blog-link">Read when we launch →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WAITLIST -->
+<section id="waitlist">
+  <div class="wl-glow"></div>
+  <div class="wl-content">
+    <div class="section-label" style="justify-content:center;color:var(--yellow)">Get Early Access</div>
+    <h2 class="section-title" style="color:#fff;font-size:clamp(2rem,4vw,3rem)">Stay Close.<br>We're Launching Soon.</h2>
+    <p>Join early members who will get first access, exclusive launch pricing, and a head start on the rest of the world.</p>
+    <div class="wl-form">
+      <input type="text" id="wlName" placeholder="Your full name" />
+      <input type="email" id="wlEmail" placeholder="Your email address" />
+      <select id="wlInterest">
+        <option value="" disabled selected>What skill are you most interested in?</option>
+        <option value="Digital Marketing">📱 Digital Marketing</option>
+        <option value="Freelancing & Remote Work">🌐 Freelancing & Remote Work</option>
+        <option value="Business & Brand Building">🏢 Business & Brand Building</option>
+        <option value="Tech Skills (Design/Coding)">💻 Tech Skills (Design / Coding)</option>
+        <option value="Content Creation">✍️ Content Creation</option>
+        <option value="Finance & Investing">💰 Finance & Investing</option>
+        <option value="All of the above">🔥 All of the above</option>
+      </select>
+      <button onclick="submitWL()">🚀 Join the Waitlist — It's Free</button>
+      <div class="wl-success" id="wlSuccess">✅ You're on the list! We'll reach out before launch.</div>
+    </div>
+    <p class="wl-note">No spam. No fees. Just early access. Unsubscribe anytime.</p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div style="max-width:1200px;margin:0 auto">
+    <div class="section-label">Get In Touch</div>
+    <h2 class="section-title">We'd Love to <span style="color:var(--blue)">Hear</span> From You</h2>
+    <p class="contact-lead">Have a question, idea, or just want to know more about SkillHaven? Reach out through any of the channels below and we'll get back to you.</p>
+    <div class="contact-grid">
+      <!-- Contact Info -->
+      <div>
+        <div class="contact-cards">
+          <a href="mailto:skillhavenofficial01@gmail.com" class="contact-card">
+            <div class="contact-card-icon email">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1B3A8C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div>
+              <div class="contact-card-lbl">Email Us</div>
+              <div class="contact-card-val">skillhavenofficial01@gmail.com</div>
+            </div>
+          </a>
+          <a href="https://wa.me/2347041591742" target="_blank" rel="noopener" class="contact-card">
+            <div class="contact-card-icon whatsapp">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            </div>
+            <div>
+              <div class="contact-card-lbl">WhatsApp</div>
+              <div class="contact-card-val">+234 704 159 1742</div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <!-- Contact Form -->
+      <div class="contact-form-box">
+        <h3>Send Us a Message</h3>
+        <div class="cf-field">
+          <input type="text" id="cfName" placeholder="Your full name" />
+          <input type="email" id="cfEmail" placeholder="Your email address" />
+          <textarea id="cfMessage" placeholder="Your message..." rows="5"></textarea>
+          <button class="cf-btn" onclick="submitContact()">Send Message →</button>
+          <div class="cf-success" id="cfSuccess">✅ Message sent! We'll get back to you soon.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-grid">
+    <div>
+      <a href="#home" class="nav-logo" style="margin-bottom:14px;display:inline-flex">
+        <svg width="34" height="38" viewBox="0 0 38 44" fill="none">
+          <path d="M19 1L1 7.5V21C1 30.8 9 39.5 19 43C29 39.5 37 30.8 37 21V7.5L19 1Z" fill="#1B3A8C"/>
+          <circle cx="19" cy="21" r="10" fill="#FFD700"/>
+          <line x1="19" y1="14" x2="19" y2="22" stroke="#0D2158" stroke-width="2.5" stroke-linecap="round"/>
+          <polyline points="15,17.5 19,13.5 23,17.5" stroke="#0D2158" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <line x1="16" y1="25" x2="22" y2="25" stroke="#8B9B2E" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span style="font-family:Syne,sans-serif;font-size:1.3rem;font-weight:800;color:#fff;margin-left:10px">Skill<span style="color:#FFD700">Haven</span></span>
+      </a>
+      <p class="ft-brand-p">Where Skills Become Income and Brands Become Businesses. Built for Africa, designed for the world.</p>
+      <div class="ft-socials">
+        <a href="#" class="ft-soc" title="LinkedIn">in</a>
+        <a href="#" class="ft-soc" title="Instagram">ig</a>
+        <a href="#" class="ft-soc" title="Twitter/X">𝕏</a>
+        <a href="#" class="ft-soc" title="YouTube">▶</a>
+      </div>
+    </div>
+    <div class="ft-col">
+      <h5>Platform</h5>
+      <a href="#courses">Courses</a>
+      <a href="#services">Services</a>
+      <a href="#waitlist">Join Waitlist</a>
+      <a href="#blog">Blog</a>
+    </div>
+    <div class="ft-col">
+      <h5>Company</h5>
+      <a href="#about">About Us</a>
+      <a href="#values">Our Values</a>
+      <a href="#contact">Contact</a>
+      <a href="#">Partnerships — Coming Soon</a>
+    </div>
+    <div class="ft-col">
+      <h5>Legal</h5>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Use</a>
+      <a href="cookie.html">Cookie Policy</a>
+    </div>
+  </div>
+  <div class="ft-bottom">
+    <p>© 2025 SkillHaven. All rights reserved.</p>
+    <span class="ft-tag">Where Skills Become Income.</span>
+  </div>
+</footer>
+
+<script>
+  // NAV scroll effect
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Mobile nav toggle
+  function toggleNav() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+
+  // Close nav on link click
+  document.querySelectorAll('#navLinks a').forEach(a => {
+    a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
+  });
+
+  // Hero quick join
+  function quickJoin() {
+    const email = document.getElementById('heroEmail').value.trim();
+    if (!email || !email.includes('@')) { alert('Please enter a valid email address.'); return; }
+    document.getElementById('wlEmail').value = email;
+    document.getElementById('waitlist').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // Full waitlist submit — connected to Make.com webhook
+  async function submitWL() {
+    const name     = document.getElementById('wlName').value.trim();
+    const email    = document.getElementById('wlEmail').value.trim();
+    const interest = document.getElementById('wlInterest').value;
+    const btn      = document.querySelector('.wl-form button');
+
+    if (!name)     { alert('Please enter your full name.'); return; }
+    if (!email || !email.includes('@')) { alert('Please enter a valid email address.'); return; }
+    if (!interest) { alert('Please select your skill interest.'); return; }
+
+    btn.textContent = '⏳ Joining...';
+    btn.disabled = true;
+
+    try {
+      await fetch('https://hook.eu1.make.com/d5o7wy62javecc5b5ucb3n4qj9rwghr0', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          email,
+          interest,
+          source: 'SkillHaven Waitlist',
+          date: new Date().toLocaleString('en-NG', { timeZone: 'Africa/Lagos' })
+        })
+      });
+      // Success — hide form, show message
+      ['wlName','wlEmail','wlInterest'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+      });
+      btn.style.display = 'none';
+      document.getElementById('wlSuccess').style.display = 'block';
+    } catch (err) {
+      btn.textContent = '🚀 Join the Waitlist — It\'s Free';
+      btn.disabled = false;
+      alert('Something went wrong. Please check your connection and try again.');
+    }
+  }
+
+  // Contact form submit
+  async function submitContact() {
+    const name    = document.getElementById('cfName').value.trim();
+    const email   = document.getElementById('cfEmail').value.trim();
+    const message = document.getElementById('cfMessage').value.trim();
+    const btn     = document.querySelector('.cf-btn');
+    if (!name)    { alert('Please enter your full name.'); return; }
+    if (!email || !email.includes('@')) { alert('Please enter a valid email address.'); return; }
+    if (!message) { alert('Please enter your message.'); return; }
+    btn.textContent = '⏳ Sending...'; btn.disabled = true;
+    try {
+      await fetch('https://hook.eu1.make.com/d5o7wy62javecc5b5ucb3n4qj9rwghr0', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ name, email, message, source:'SkillHaven Contact Form',
+          date: new Date().toLocaleString('en-NG',{timeZone:'Africa/Lagos'}) })
+      });
+      ['cfName','cfEmail','cfMessage'].forEach(id => document.getElementById(id).style.display='none');
+      btn.style.display='none';
+      document.getElementById('cfSuccess').style.display='block';
+    } catch(err) {
+      btn.textContent='Send Message →'; btn.disabled=false;
+      alert('Something went wrong. Please try again.');
+    }
+  }
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+        revealObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.svc-card,.crs-card,.blog-card,.qcard,.val-item').forEach(el => {
+    el.style.cssText += 'opacity:0;transform:translateY(22px);transition:opacity .55s ease,transform .55s ease,border-color .3s,box-shadow .3s;';
+    revealObs.observe(el);
+  });
+</script>
+</body>
+</html>
