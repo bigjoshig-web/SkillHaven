@@ -136,6 +136,55 @@
     @keyframes floatY { 0%,100%{transform:translateY(-50%)} 50%{transform:translateY(-52%) translateX(-8px)} }
     @keyframes fadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
 
+    /* ── BREATHING BACKGROUND ── */
+    .hero-breath {
+      position:absolute; inset:0; z-index:0;
+      background:radial-gradient(ellipse at 65% 50%, rgba(37,73,176,.35) 0%, transparent 65%);
+      animation:breathe 7s ease-in-out infinite;
+    }
+    @keyframes breathe { 0%,100%{opacity:.4;transform:scale(1)} 50%{opacity:.75;transform:scale(1.08)} }
+    .hero-blob.three {
+      width:280px; height:280px; background:var(--blue-mid);
+      top:35%; left:35%; animation:breathBlob 9s ease-in-out infinite 1s;
+    }
+    @keyframes breathBlob { 0%,100%{opacity:.05;transform:scale(1)} 50%{opacity:.14;transform:scale(1.4)} }
+
+    /* ── TYPEWRITER ── */
+    .type-wrap { display:inline; }
+    .type-word { color:var(--yellow); }
+    .type-cursor {
+      display:inline-block; width:3px; background:var(--yellow);
+      margin-left:3px; border-radius:2px; vertical-align:baseline;
+      animation:cursorBlink .8s step-end infinite;
+      height:.85em; position:relative; top:.05em;
+    }
+    @keyframes cursorBlink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* ── FLOATING ACHIEVEMENT CARDS ── */
+    .float-card {
+      position:absolute; z-index:3;
+      background:rgba(255,255,255,.1);
+      backdrop-filter:blur(12px);
+      border:1px solid rgba(255,255,255,.22);
+      border-radius:50px; padding:10px 18px;
+      display:flex; align-items:center; gap:9px;
+      color:#fff; font-size:.8rem; font-weight:600;
+      white-space:nowrap; pointer-events:none;
+      box-shadow:0 4px 20px rgba(0,0,0,.2);
+    }
+    .float-card .fc-dot {
+      width:8px; height:8px; border-radius:50%; flex-shrink:0;
+    }
+    .fc1 { top:22%; right:4%;  animation:fc1float 4s ease-in-out infinite; }
+    .fc2 { top:55%; right:2%;  animation:fc2float 5s ease-in-out infinite .8s; }
+    .fc3 { top:38%; right:27%; animation:fc3float 4.5s ease-in-out infinite .4s; }
+    .fc4 { bottom:22%; right:12%; animation:fc4float 5.5s ease-in-out infinite 1.2s; }
+    @keyframes fc1float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    @keyframes fc2float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px) translateX(-4px)} }
+    @keyframes fc3float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+    @keyframes fc4float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px) translateX(4px)} }
+    @media(max-width:768px) { .float-card { display:none; } }
+
     /* ── STRIP ── */
     /* ── MARQUEE STRIP ── */
     .strip {
@@ -195,18 +244,56 @@
       box-shadow:0 10px 36px rgba(27,58,140,.16);
     }
 
-    /* Global classroom section */
-    #global { position:relative; overflow:hidden; height:420px; }
-    .global-img { width:100%; height:100%; object-fit:cover; object-position:center top; display:block; }
-    .global-overlay {
-      position:absolute; inset:0;
-      background:linear-gradient(135deg,rgba(13,33,88,.86),rgba(27,58,140,.75));
-      display:flex; align-items:center; justify-content:center;
-      flex-direction:column; text-align:center; padding:40px 6%;
+    /* ── GLOBAL CLASSROOM ── */
+    #global { padding:100px 6%; background:var(--navy); position:relative; overflow:hidden; }
+    #global::before { content:''; position:absolute; inset:0; background-image:radial-gradient(circle,rgba(255,215,0,.05) 1px,transparent 1px); background-size:44px 44px; }
+    .global-grid { display:grid; grid-template-columns:1fr 1fr; gap:72px; align-items:center; max-width:1200px; margin:0 auto; position:relative; z-index:1; }
+    .global-img-side { position:relative; }
+    .global-img-frame {
+      border-radius:24px; overflow:hidden;
+      box-shadow:0 28px 72px rgba(0,0,0,.45);
+      border:3px solid rgba(255,215,0,.28);
+      position:relative;
     }
-    .global-overlay h2 { font-size:clamp(1.8rem,3.5vw,2.7rem); font-weight:800; color:#fff; margin-bottom:14px; line-height:1.2; }
-    .global-overlay h2 span { color:var(--yellow); }
-    .global-overlay p { color:rgba(255,255,255,.72); font-size:1rem; max-width:560px; line-height:1.75; }
+    .global-img-frame img { width:100%; height:440px; object-fit:cover; object-position:center top; display:block; transition:transform .6s ease; }
+    .global-img-frame:hover img { transform:scale(1.04); }
+    .global-img-frame::after { content:''; position:absolute; inset:0; background:linear-gradient(180deg,transparent 55%,rgba(13,33,88,.6) 100%); pointer-events:none; }
+    /* Decorative dot cluster behind image */
+    .global-img-side::before {
+      content:''; position:absolute; width:200px; height:200px;
+      background-image:radial-gradient(circle, rgba(255,215,0,.3) 1.5px, transparent 1.5px);
+      background-size:18px 18px; border-radius:50%;
+      bottom:-24px; left:-24px; z-index:-1;
+    }
+    /* Floating stat badge on image */
+    .global-badge {
+      position:absolute; bottom:20px; left:20px; z-index:2;
+      background:rgba(13,33,88,.85); backdrop-filter:blur(12px);
+      border:1px solid rgba(255,215,0,.3);
+      border-radius:14px; padding:14px 20px;
+      display:flex; align-items:center; gap:14px;
+    }
+    .global-badge-icon { width:40px; height:40px; background:rgba(255,215,0,.15); border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .global-badge-label { font-size:.72rem; color:rgba(255,255,255,.55); text-transform:uppercase; letter-spacing:1px; font-weight:600; }
+    .global-badge-val { font-family:'Syne',sans-serif; font-size:1.05rem; font-weight:800; color:#fff; }
+    /* Text side */
+    .global-text .section-label { color:var(--yellow); }
+    .global-text h2 { font-size:clamp(1.9rem,3.5vw,2.9rem); font-weight:800; color:#fff; line-height:1.18; margin-bottom:20px; }
+    .global-text h2 span { color:var(--yellow); }
+    .global-text p { color:rgba(255,255,255,.65); font-size:1rem; line-height:1.8; margin-bottom:16px; }
+    .global-list { list-style:none; margin:24px 0 36px; display:flex; flex-direction:column; gap:12px; }
+    .global-list li { display:flex; align-items:center; gap:12px; color:rgba(255,255,255,.75); font-size:.92rem; }
+    .global-list li::before { content:''; width:8px; height:8px; background:var(--yellow); border-radius:50%; flex-shrink:0; }
+    .global-cta {
+      display:inline-flex; align-items:center; gap:8px;
+      background:var(--yellow); color:var(--navy);
+      padding:14px 28px; border-radius:50px;
+      font-family:'Syne',sans-serif; font-size:.9rem; font-weight:700;
+      text-decoration:none; transition:all .2s;
+    }
+    .global-cta:hover { background:var(--yellow-dk); transform:translateY(-2px); box-shadow:0 8px 28px rgba(255,215,0,.4); }
+    @media(max-width:1024px) { .global-grid { grid-template-columns:1fr; gap:48px; } }
+    @media(max-width:768px) { .global-img-frame img { height:280px; } }
 
     /* Blog image wrapper */
     .blog-thumb-wrap { position:relative; height:196px; overflow:hidden; }
@@ -512,12 +599,14 @@
   <div class="hero-dots"></div>
   <div class="hero-blob one"></div>
   <div class="hero-blob two"></div>
+  <div class="hero-blob three"></div>
+  <div class="hero-breath"></div>
 
   <div class="hero-content">
     <div class="badge"><span class="dot"></span>Launching Soon — Be First</div>
     <h1 class="hero-h1">
       Where <span class="hl">Skills</span><br>
-      Become Income &amp;<br>
+      Become <span class="type-wrap"><span class="type-word" id="typeWord">Income</span><span class="type-cursor"></span></span> &amp;<br>
       Brands Become<br>Businesses.
     </h1>
     <p class="hero-sub">
@@ -528,10 +617,41 @@
       <button onclick="quickJoin()">Join Waitlist</button>
     </div>
     <div class="hero-stats">
-      <div class="hero-stat"><span class="hero-stat-n">10+</span><span class="hero-stat-l">Courses Planned</span></div>
-      <div class="hero-stat"><span class="hero-stat-n">3</span><span class="hero-stat-l">Core Services</span></div>
-      <div class="hero-stat"><span class="hero-stat-n">🌍</span><span class="hero-stat-l">Global Platform</span></div>
+      <div class="hero-stat">
+        <span class="hero-stat-n counter" data-target="10" data-suffix="+">0+</span>
+        <span class="hero-stat-l">Courses Planned</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-n counter" data-target="3" data-suffix="">0</span>
+        <span class="hero-stat-l">Core Services</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-n counter" data-target="100" data-suffix="%">0%</span>
+        <span class="hero-stat-l">Free to Join</span>
+      </div>
     </div>
+  </div>
+
+  <!-- Floating Achievement Cards -->
+  <div class="float-card fc1">
+    <div class="fc-dot" style="background:#FFD700"></div>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+    Digital Marketing
+  </div>
+  <div class="float-card fc2">
+    <div class="fc-dot" style="background:#25D366"></div>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+    Skills → Income
+  </div>
+  <div class="float-card fc3">
+    <div class="fc-dot" style="background:#FFD700"></div>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    Brand Building
+  </div>
+  <div class="float-card fc4">
+    <div class="fc-dot" style="background:#60A5FA"></div>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+    Global Platform
   </div>
 
   <!-- Floating Shield 3D -->
@@ -648,14 +768,53 @@
 
 <!-- GLOBAL CLASSROOM -->
 <section id="global">
-  <img
-    src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1400&q=80&fit=crop"
-    alt="SkillHaven digital classroom — global learners"
-    class="global-img"
-  />
-  <div class="global-overlay">
-    <h2>The Internet is the Biggest<br><span>Classroom in Human History.</span></h2>
-    <p>One hour a day for a year could change everything. Business. Design. Technology. Marketing. Your future income might depend on what you do with your time online today.</p>
+  <div class="global-grid">
+
+    <!-- LEFT — Image -->
+    <div class="global-img-side">
+      <div class="global-img-frame">
+        <img
+          src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=900&q=85&fit=crop"
+          alt="SkillHaven global learners — digital classroom"
+        />
+        <!-- Floating badge on image -->
+        <div class="global-badge">
+          <div class="global-badge-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <div>
+            <div class="global-badge-label">Platform Reach</div>
+            <div class="global-badge-val">Global Learners</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT — Text -->
+    <div class="global-text">
+      <div class="section-label">Global Vision</div>
+      <h2>
+        The Internet is the Biggest<br>
+        <span>Classroom in Human History.</span>
+      </h2>
+      <p>
+        You can learn almost anything online today. Business. Design. Technology. Marketing. Yet many people spend hours online doing only one thing — scrolling.
+      </p>
+      <p>
+        Imagine what would happen if just one hour a day was used to learn a profitable skill. One hour daily for a year. That could change everything.
+      </p>
+      <ul class="global-list">
+        <li>Structured courses built around real income outcomes</li>
+        <li>Learn from anywhere — Nigeria, Africa, and beyond</li>
+        <li>Skills that employers and clients actually pay for</li>
+        <li>Your future income depends on what you do online today</li>
+      </ul>
+      <a href="#waitlist" class="global-cta">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Join the Waitlist — Free
+      </a>
+    </div>
+
   </div>
 </section>
 
@@ -1064,6 +1223,55 @@
       alert('Something went wrong. Please try again.');
     }
   }
+
+  // ── TYPEWRITER WORD SWAP ──
+  const typeWords = ['Income', 'Freedom', 'Success', 'Power', 'Impact'];
+  let typeIndex = 0, charIndex = 0, isDeleting = false;
+  const typeEl = document.getElementById('typeWord');
+  function typeWriter() {
+    const word = typeWords[typeIndex];
+    if (isDeleting) {
+      typeEl.textContent = word.substring(0, charIndex - 1);
+      charIndex--;
+      if (charIndex === 0) {
+        isDeleting = false;
+        typeIndex = (typeIndex + 1) % typeWords.length;
+        setTimeout(typeWriter, 400); return;
+      }
+      setTimeout(typeWriter, 60);
+    } else {
+      typeEl.textContent = word.substring(0, charIndex + 1);
+      charIndex++;
+      if (charIndex === word.length) {
+        isDeleting = true;
+        setTimeout(typeWriter, 2400); return;
+      }
+      setTimeout(typeWriter, 100);
+    }
+  }
+  setTimeout(typeWriter, 1600);
+
+  // ── ANIMATED COUNTERS ──
+  function animateCounter(el) {
+    const target = parseInt(el.dataset.target);
+    const suffix = el.dataset.suffix || '';
+    let current = 0;
+    const steps = 55;
+    const inc = target / steps;
+    let step = 0;
+    const t = setInterval(() => {
+      step++;
+      current = Math.min(Math.round(inc * step), target);
+      el.textContent = current + suffix;
+      if (step >= steps) clearInterval(t);
+    }, 30);
+  }
+  const counterObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { animateCounter(e.target); counterObs.unobserve(e.target); } });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.counter').forEach(el => counterObs.observe(el));
+
+  // ── SCROLL REVEAL ──
   const revealObs = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
